@@ -72,3 +72,48 @@ After 5 of 23 revert applies, the next refresh-only plan exited 2 with no drift:
 | terraform plan | 2.20 s | 1.96 s | 2.88 s | 11 |
 | tofu plan -refresh-only | 2.40 s | 2.02 s | 2.63 s | 11 |
 | inventory.py | 3.59 s | 3.19 s | 3.96 s | 9 |
+
+### Adopting with import blocks
+
+`adopt-20261120T133020Z/`: four resources made by hand (record, firewall, tag, tagged droplet), found by `inventory.py`, one `import` block each, `plan -generate-config-out`, then a second plan with the generated file. Nothing applied.
+
+- Terraform: config for all four; second plan `4 to import, 0 to add, 0 to change, 0 to destroy`, exit 2 (a pending import counts as a change).
+- OpenTofu: wrote `tag = ""` for the A record, which fails the provider's validation (`expected tag to be one of [issue issuewild iodef]`). After deleting that line: `4 to import, 0 to add, 0 to change, 0 to destroy`.
+
+Earlier attempts: `adopt-20261120T121100Z/` was confounded by the backups flag (see its `NOTE.txt`); `adopt-20261120T122907Z/` is clean but ran an older `adopt.py` without the one-line fix step, so its OpenTofu side stops at the error. The default VPC UUID in the generated droplet config is redacted in the committed files.
+
+### The scheduled check
+
+`check-demo-20261120T122801Z.txt`: `check.py` exits 0 on the clean lab, then 2 after three drifts, listing the firewall rule as DRIFT, the record and the droplet as UNMANAGED, and the tag counter as ignored.
+
+### Time to detect
+
+`watch-20261120T123001Z.jsonl`, seed 23: refresh-only plan every 10 min, inventory every 2 min, 60 min, six drifts at random times, none reverted.
+
+| Drift | landed at | caught by | time to detect |
+| --- | --- | --- | --- |
+| record-created | 443.8 s | inventory | 40.1 s |
+| dns-hotfix | 625.5 s | plan | 578.2 s |
+| droplet-created-untagged | 746.0 s | nothing | not within the hour |
+| firewall-created | 1307.3 s | inventory | 16.9 s |
+| firewall-rule-added | 1368.3 s | plan | 435.4 s |
+| tag-removed | 1619.0 s | plan | 184.7 s |
+
+"Landed at" is when the doctl call returned. The plan at 600 s flagged `digitalocean_firewall.web` before any firewall change (`watch.py` records addresses only, so the attribute is unknown) and kept flagging it, so the real rule change at 1368 s appeared under an address that was already on the list. 7 plans (median 3.19 s), 31 inventory runs (median 3.91 s, 279 requests).
+
+### The backups flag lags
+
+The provider reads `backups` from the droplet's `features` list (see SOURCES.md). `backups-lag-20261120T133125Z.jsonl`, polling every 15 s after each doctl action:
+
+| Rep | Action | `features` agreed after | backup policy endpoint |
+| --- | --- | --- | --- |
+| 1 | enable | 402.5 s | agreed at every poll |
+| 1 | disable | 601.3 s | agreed at every poll |
+| 2 | enable | 617.1 s | agreed at every poll |
+| 2 | disable | 599.8 s | agreed at every poll |
+
+In the matrix, the round 1 `enable_backups` completed at 12:00:57 and plans first showed it between about 12:05:08 and 12:05:28. `backups-lag-20261120T121055Z.jsonl` only watched an earlier disable that was already in progress (several disable actions had been sent), so it gives no clean number.
+
+## Cost
+
+The lab ran from 11:43 to 14:09 UTC on 2026-11-20: one `s-1vcpu-512mb-10gb` droplet the whole time ($0.00595 an hour), ten short-lived droplets made by the scenarios, and under an hour of droplet backups in total. About $0.02 at the hourly price, at most $0.08 if every partial hour rounds up. `teardown.sh` destroyed all ten managed resources and the scenario leftovers; nothing named `dl-` was left in the account.

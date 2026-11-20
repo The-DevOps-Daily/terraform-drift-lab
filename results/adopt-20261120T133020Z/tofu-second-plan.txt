@@ -1,0 +1,7 @@
+
+Error: expected tag to be one of [issue issuewild iodef], got 
+
+  with digitalocean_record.adopted_3,
+  on generated.tf line 28, in resource "digitalocean_record" "adopted_3":
+  28:   tag      = ""
+

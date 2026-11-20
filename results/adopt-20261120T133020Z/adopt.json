@@ -1,0 +1,112 @@
+{
+  "stamp": "# adopt.py sha256=8ebd705aecef Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T13:30:20Z",
+  "inventory": {
+    "tool": "inventory",
+    "unmanaged": [
+      {
+        "type": "droplet",
+        "id": "621632585",
+        "why": "tagged dl-web"
+      },
+      {
+        "type": "firewall",
+        "id": "5773450e-1b09-457f-bb8d-80105936682c",
+        "why": "dl-hotfix-8080 targets 621604794"
+      },
+      {
+        "type": "tag",
+        "id": "dl-owner-oncall",
+        "why": "on droplet 621632585"
+      },
+      {
+        "type": "record",
+        "id": "1839114581",
+        "why": "A debug in zone"
+      }
+    ],
+    "missing": [],
+    "api_requests": 10,
+    "seconds": 4.3
+  },
+  "results": [
+    {
+      "tool": "terraform",
+      "imports": 4,
+      "generate_exit": 0,
+      "generate_seconds": 2.66,
+      "second_plan_exit": 2,
+      "second_plan_seconds": 2.37,
+      "changes": [
+        {
+          "address": "digitalocean_droplet.adopted_0",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_firewall.adopted_1",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_record.adopted_3",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_tag.adopted_2",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        }
+      ]
+    },
+    {
+      "tool": "tofu",
+      "imports": 4,
+      "generate_exit": 1,
+      "generate_seconds": 2.24,
+      "second_plan_exit": 1,
+      "second_plan_seconds": 0.51,
+      "fixed": "deleted tag = \"\" lines",
+      "after_fix_plan_exit": 2,
+      "after_fix_plan_seconds": 2.17,
+      "changes": [
+        {
+          "address": "digitalocean_droplet.adopted_0",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_firewall.adopted_1",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_record.adopted_3",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_tag.adopted_2",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        }
+      ]
+    }
+  ]
+}

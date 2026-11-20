@@ -1,0 +1,119 @@
+digitalocean_tag.adopted_2: Preparing import... [id=dl-owner-oncall]
+digitalocean_droplet.adopted_0: Preparing import... [id=621632585]
+digitalocean_record.adopted_3: Preparing import... [id=tf-drift-lab.devops-daily.com,1839114581]
+digitalocean_firewall.adopted_1: Preparing import... [id=5773450e-1b09-457f-bb8d-80105936682c]
+digitalocean_tag.env: Refreshing state... [id=dl-env-lab]
+digitalocean_ssh_key.lab: Refreshing state... [id=61037185]
+digitalocean_firewall.adopted_1: Refreshing state... [id=5773450e-1b09-457f-bb8d-80105936682c]
+digitalocean_tag.adopted_2: Refreshing state... [id=dl-owner-oncall]
+digitalocean_tag.web: Refreshing state... [id=dl-web]
+digitalocean_record.adopted_3: Refreshing state... [id=1839114581]
+digitalocean_domain.lab: Refreshing state... [id=tf-drift-lab.devops-daily.com]
+digitalocean_record.verify: Refreshing state... [id=1839109030]
+digitalocean_record.www: Refreshing state... [id=1839107576]
+digitalocean_firewall.web: Refreshing state... [id=5d98c276-d762-43af-8caf-f97c6dc4d15a]
+digitalocean_droplet.adopted_0: Refreshing state... [id=621632585]
+digitalocean_droplet.web: Refreshing state... [id=621604794]
+digitalocean_project.lab: Refreshing state... [id=887ccaeb-f5f0-41f7-ba3d-fe34dda2c1d9]
+digitalocean_record.app: Refreshing state... [id=1839107638]
+
+Terraform will perform the following actions:
+
+  # digitalocean_droplet.adopted_0 will be imported
+    resource "digitalocean_droplet" "adopted_0" {
+        backups              = false
+        created_at           = "2026-11-20T13:30:24Z"
+        disk                 = 10
+        id                   = "621632585"
+        image                = "ubuntu-24-04-x64"
+        ipv4_address         = "68.183.37.8"
+        ipv4_address_private = "10.131.0.4"
+        ipv6                 = false
+        ipv6_address         = null
+        locked               = false
+        memory               = 512
+        monitoring           = false
+        name                 = "dl-web-debug"
+        price_hourly         = 0.00595
+        price_monthly        = 4
+        private_networking   = true
+        public_networking    = true
+        region               = "lon1"
+        resize_disk          = true
+        size                 = "s-1vcpu-512mb-10gb"
+        status               = "active"
+        tags                 = [
+            "dl-owner-oncall",
+            "dl-web",
+        ]
+        urn                  = "do:droplet:621632585"
+        vcpus                = 1
+        volume_ids           = []
+        vpc_uuid             = "<default-vpc-uuid, redacted>"
+    }
+
+  # digitalocean_firewall.adopted_1 will be imported
+    resource "digitalocean_firewall" "adopted_1" {
+        created_at      = "2026-11-20T13:30:21Z"
+        droplet_ids     = [
+            621604794,
+        ]
+        id              = "5773450e-1b09-457f-bb8d-80105936682c"
+        name            = "dl-hotfix-8080"
+        pending_changes = []
+        status          = "succeeded"
+        tags            = []
+
+        inbound_rule {
+            action                    = "allow"
+            port_range                = "8080"
+            protocol                  = "tcp"
+            source_addresses          = [
+                "0.0.0.0/0",
+                "::/0",
+            ]
+            source_droplet_ids        = []
+            source_kubernetes_ids     = []
+            source_load_balancer_uids = []
+            source_tags               = []
+        }
+    }
+
+  # digitalocean_record.adopted_3 will be imported
+    resource "digitalocean_record" "adopted_3" {
+        domain   = "tf-drift-lab.devops-daily.com"
+        flags    = 0
+        fqdn     = "debug.tf-drift-lab.devops-daily.com"
+        id       = "1839114581"
+        name     = "debug"
+        port     = 0
+        priority = 0
+        tag      = null
+        ttl      = 60
+        type     = "A"
+        value    = "198.51.100.8"
+        weight   = 0
+    }
+
+  # digitalocean_tag.adopted_2 will be imported
+    resource "digitalocean_tag" "adopted_2" {
+        databases_count        = 0
+        droplets_count         = 1
+        id                     = "dl-owner-oncall"
+        images_count           = 0
+        name                   = "dl-owner-oncall"
+        total_resource_count   = 1
+        volume_snapshots_count = 0
+        volumes_count          = 0
+    }
+
+Plan: 4 to import, 0 to add, 0 to change, 0 to destroy.
+
+Warning: digitalocean_record TTL changed
+
+The TTL for record ID 1839114581 changed from 0 to 60. DNS requires that
+multiple records with the same FQDN share the same TTL. If inconsistent TTLs
+are provided, DigitalOcean will rectify them automatically.
+
+For reference, see RFC 2181, section 5.2:
+https://www.rfc-editor.org/rfc/rfc2181#section-5.

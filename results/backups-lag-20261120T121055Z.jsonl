@@ -1,0 +1,20 @@
+# backups_lag.py sha256=0e08f6fe14ee Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T12:10:55Z mode=watch-off reps=1 poll=15s
+{"label": "existing disable_backups", "action": 3561178873, "completed_at": "2026-11-20T12:07:20Z"}
+{"label": "1:watch-off", "t": 0.6, "at": "2026-11-20T12:10:56Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 18.1, "at": "2026-11-20T12:11:14Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 34.1, "at": "2026-11-20T12:11:30Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 49.9, "at": "2026-11-20T12:11:46Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 67.0, "at": "2026-11-20T12:12:03Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 83.5, "at": "2026-11-20T12:12:19Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 100.7, "at": "2026-11-20T12:12:36Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 117.6, "at": "2026-11-20T12:12:53Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 133.9, "at": "2026-11-20T12:13:10Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 150.9, "at": "2026-11-20T12:13:27Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 167.6, "at": "2026-11-20T12:13:43Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 183.9, "at": "2026-11-20T12:14:00Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 201.2, "at": "2026-11-20T12:14:17Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 218.3, "at": "2026-11-20T12:14:34Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 234.6, "at": "2026-11-20T12:14:50Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 250.7, "at": "2026-11-20T12:15:07Z", "features_has_backups": true, "policy_enabled": false}
+{"label": "1:watch-off", "t": 267.2, "at": "2026-11-20T12:15:23Z", "features_has_backups": false, "policy_enabled": false}
+{"label": "1:watch-off", "result": "flipped", "seconds_after_watch_start": 268.6, "at": "2026-11-20T12:15:24Z"}
