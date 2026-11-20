@@ -1,0 +1,7 @@
+# teardown.sh output and the leftover sweep, copied from the terminal on 2026-11-20 (not stamped by a script)
+$ scripts/teardown.sh   (tail)
+Destroy complete! Resources: 10 destroyed.
+destroyed at 2026-11-20T14:09:23Z
+
+$ doctl compute droplet list / firewall list / tag list / ssh-key list | grep '^dl-'; doctl compute domain list | grep drift; doctl projects list | grep drift
+(no output: nothing from the lab was left)
