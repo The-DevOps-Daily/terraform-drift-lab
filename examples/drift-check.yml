@@ -2,7 +2,7 @@
 # Not run in Actions for this lab: scripts/watch.py ran the schedule on a server.
 # It assumes the state lives in a remote backend (the lab keeps it local) and that
 # the variables come from a committed .tfvars file. The token needs read access to
-# droplets, firewalls, tags, domains and projects.
+# droplets, firewalls, tags, domains, projects and SSH keys.
 name: drift-check
 on:
   schedule:
@@ -25,6 +25,7 @@ jobs:
           terraform_version: 1.17.2
           terraform_wrapper: false # keep the real exit code
       - run: terraform init -input=false
+      - run: mkdir -p .lab # check.py writes its plan file there
       - name: check
         id: check
         run: |

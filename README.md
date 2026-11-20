@@ -54,7 +54,7 @@ Terraform 1.17.2, OpenTofu 1.13.9, provider digitalocean 2.108.0, doctl 2.7.0, l
 | project-moved | yes (`resources`) | yes | no |
 | firewall-deleted | yes | yes | yes, missing |
 
-Plan: 7 of 12 (8 counting the counter). Inventory: 6 of 12. Either: 10 of 12.
+Plan: 7 of 12 (8 counting the counter). Inventory: 6 of 12. Three overlap (tag-added, record-deleted, firewall-deleted), so either: 10 of 12. The four detectors run one after the other after the 5 s wait, about 10 s in all, the inventory last. In round 2 the `record-deleted` plans also show the backups change left over from round 1.
 
 After 5 of 23 revert applies, the next refresh-only plan exited 2 with no drift: tag counters (2), firewall `status`/`pending_changes` (1), firewall `droplet_ids` (2). Dropping drift where every changed attribute is computed-only in the provider schema removes the first two kinds, not the third.
 
@@ -116,4 +116,4 @@ In the matrix, the round 1 `enable_backups` completed at 12:00:57 and plans firs
 
 ## Cost
 
-The lab ran from 11:43 to 14:09 UTC on 2026-11-20: one `s-1vcpu-512mb-10gb` droplet the whole time ($0.00595 an hour), ten short-lived droplets made by the scenarios, and under an hour of droplet backups in total. About $0.02 at the hourly price, at most $0.08 if every partial hour rounds up. `teardown.sh` destroyed all ten managed resources and the scenario leftovers; nothing named `dl-` was left in the account.
+The lab ran from 11:43 to 14:09 UTC on 2026-11-20: one `s-1vcpu-512mb-10gb` droplet the whole time ($0.00595 an hour), ten droplets made by the scenarios (most for a few minutes, one for 48), and under an hour of droplet backups in total. DigitalOcean bills droplets per second with a minimum of 60 seconds or $0.01, whichever is higher, so the ten extra droplets cost at least $0.10 and the main one about $0.014: roughly $0.12, plus the backups. `teardown.sh` destroyed all ten managed resources and the scenario leftovers; nothing named `dl-` was left in the account.
