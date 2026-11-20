@@ -1,0 +1,1 @@
+NOTE: confounded run. The droplet backups flag was still settling (see backups-lag-*.jsonl), so the second Terraform plan also showed an update to digitalocean_droplet.web that has nothing to do with the imports. adopt-20261120T122907Z is the clean rerun.

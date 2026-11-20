@@ -1,0 +1,86 @@
+{
+  "stamp": "# adopt.py sha256=0e08f6fe14ee Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T12:11:01Z",
+  "inventory": {
+    "tool": "inventory",
+    "unmanaged": [
+      {
+        "type": "droplet",
+        "id": "621612411",
+        "why": "tagged dl-web"
+      },
+      {
+        "type": "firewall",
+        "id": "2adde6e3-716a-4383-9883-9d1755b24afa",
+        "why": "dl-hotfix-8080 targets 621604794"
+      },
+      {
+        "type": "tag",
+        "id": "dl-owner-oncall",
+        "why": "on droplet 621612411"
+      },
+      {
+        "type": "record",
+        "id": "1839109307",
+        "why": "A debug in zone"
+      }
+    ],
+    "missing": [],
+    "api_requests": 10,
+    "seconds": 4.16
+  },
+  "results": [
+    {
+      "tool": "terraform",
+      "imports": 4,
+      "generate_exit": 0,
+      "generate_seconds": 2.05,
+      "second_plan_exit": 2,
+      "second_plan_seconds": 2.39,
+      "changes": [
+        {
+          "address": "digitalocean_droplet.adopted_0",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_droplet.web",
+          "actions": [
+            "update"
+          ],
+          "importing": false
+        },
+        {
+          "address": "digitalocean_firewall.adopted_1",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_record.adopted_3",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        },
+        {
+          "address": "digitalocean_tag.adopted_2",
+          "actions": [
+            "no-op"
+          ],
+          "importing": true
+        }
+      ]
+    },
+    {
+      "tool": "tofu",
+      "imports": 4,
+      "generate_exit": 1,
+      "generate_seconds": 2.03,
+      "second_plan_exit": 1,
+      "second_plan_seconds": 0.39
+    }
+  ]
+}

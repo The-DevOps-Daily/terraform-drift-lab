@@ -1,0 +1,2 @@
+# matrix.py sha256=0e08f6fe14ee Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T12:15:56Z rounds=1 settle=5s
+# NOTE: stopped by hand before its first scenario: the list included backups-enabled, whose flag lag would have spoiled the runs after it. Restarted without it.

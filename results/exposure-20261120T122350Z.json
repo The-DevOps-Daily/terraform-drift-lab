@@ -1,0 +1,91 @@
+{
+  "stamp": "# exposure.py sha256=0e08f6fe14ee Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T12:22:21Z",
+  "before": [
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    },
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    },
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    }
+  ],
+  "after": [
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.0,
+      "at": "2026-11-20T12:22:41Z"
+    },
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.0,
+      "at": "2026-11-20T12:22:56Z"
+    },
+    {
+      "connected": true,
+      "banner": "SSH-2.0-OpenSSH_9.6p1 Ubuntu-3ubuntu13.2",
+      "seconds": 0.14,
+      "at": "2026-11-20T12:23:06Z"
+    }
+  ],
+  "tag_removed_at": "2026-11-20T12:22:36Z",
+  "plan": {
+    "exit": 2,
+    "changes": [
+      {
+        "address": "digitalocean_droplet.web",
+        "actions": [
+          "update"
+        ]
+      }
+    ],
+    "drift": [
+      {
+        "address": "digitalocean_droplet.web",
+        "attrs": [
+          "tags"
+        ]
+      },
+      {
+        "address": "digitalocean_firewall.web",
+        "attrs": [
+          "pending_changes",
+          "status"
+        ]
+      },
+      {
+        "address": "digitalocean_tag.web",
+        "attrs": [
+          "droplets_count",
+          "total_resource_count"
+        ]
+      }
+    ]
+  },
+  "restored": [
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    },
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    },
+    {
+      "connected": false,
+      "error": "TimeoutError",
+      "seconds": 5.01
+    }
+  ]
+}

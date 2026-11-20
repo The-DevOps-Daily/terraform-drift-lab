@@ -1,0 +1,12 @@
+# check_demo.py sha256=8d6ce732f16c Terraform v1.17.2 / OpenTofu v1.13.9 provider=2.108.0 zone=tf-drift-lab.devops-daily.com started=2026-11-20T12:28:02Z scenarios=firewall-rule-added,record-created,droplet-created-tagged
+$ python3 scripts/check.py   # before
+plan 2.22 s, inventory 4.23 s, 9 inventory requests
+exit 0
+
+$ python3 scripts/check.py   # after firewall-rule-added, record-created, droplet-created-tagged
+DRIFT     digitalocean_firewall.web: inbound_rule
+UNMANAGED droplet 621616958 (tagged dl-web)
+UNMANAGED record 1839110469 (A debug in zone)
+ignored   digitalocean_tag.web: computed only (droplets_count, total_resource_count)
+plan 2.33 s, inventory 4.21 s, 10 inventory requests
+exit 2
