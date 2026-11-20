@@ -108,6 +108,28 @@ def tofu_dir():
     return d
 
 
+_SCHEMA = {}
+
+
+def computed_only(rtype):
+    """Attribute names of rtype that only the provider sets (computed, not optional or required)."""
+    if not _SCHEMA:
+        cache = LAB / "schema.json"
+        if not cache.exists():
+            cache.write_text(subprocess.run([TF, "providers", "schema", "-json"], cwd=ROOT,
+                                            capture_output=True, text=True, check=True).stdout)
+        for prov in json.loads(cache.read_text())["provider_schemas"].values():
+            for t, sch in prov["resource_schemas"].items():
+                _SCHEMA[t] = {n for n, a in sch["block"].get("attributes", {}).items()
+                              if a.get("computed") and not a.get("optional") and not a.get("required")}
+    return _SCHEMA.get(rtype, set())
+
+
+def changed_attrs(change):
+    before, after = change.get("before") or {}, change.get("after") or {}
+    return sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+
+
 def plan(binary=TF, refresh_only=True, log_requests=False):
     """Run one plan with -detailed-exitcode and return what it reports.
 
@@ -136,7 +158,9 @@ def plan(binary=TF, refresh_only=True, log_requests=False):
     show = json.loads(subprocess.run([binary, "show", "-json", str(planfile)], cwd=cwd,
                                      capture_output=True, text=True, check=True).stdout)
     for d in show.get("resource_drift", []):
-        result["drift"].append({"address": d["address"], "actions": d["change"]["actions"]})
+        attrs = changed_attrs(d["change"])
+        result["drift"].append({"address": d["address"], "actions": d["change"]["actions"], "attrs": attrs,
+                                "computed_only": bool(attrs) and set(attrs) <= computed_only(d["type"])})
     for c in show.get("resource_changes", []):
         if c["change"]["actions"] != ["no-op"]:
             result["changes"].append({"address": c["address"], "actions": c["change"]["actions"]})
@@ -150,7 +174,7 @@ def plan(binary=TF, refresh_only=True, log_requests=False):
 def doctl(*args):
     p = subprocess.run(["doctl", *args, "-o", "json"], capture_output=True, text=True)
     if p.returncode != 0:
-        raise RuntimeError(f"doctl {' '.join(args)}: {p.stderr.strip()}")
+        raise RuntimeError(f"doctl {' '.join(args)}: {p.stderr.strip()} {p.stdout.strip()[:400]}")
     return json.loads(p.stdout) if p.stdout.strip() else None
 
 

@@ -1,0 +1,43 @@
+# Example: run scripts/check.py on a schedule and open one issue per finding run.
+# Not run in Actions for this lab: scripts/watch.py ran the schedule on a server.
+# It assumes the state lives in a remote backend (the lab keeps it local) and that
+# the variables come from a committed .tfvars file. The token needs read access to
+# droplets, firewalls, tags, domains and projects.
+name: drift-check
+on:
+  schedule:
+    - cron: '7 * * * *' # hourly
+  workflow_dispatch:
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    concurrency: drift-check # never two checks at once
+    env:
+      DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_READ_TOKEN }}
+      ZONE: tf-drift-lab.example.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: 1.17.2
+          terraform_wrapper: false # keep the real exit code
+      - run: terraform init -input=false
+      - name: check
+        id: check
+        run: |
+          set +e
+          python3 scripts/check.py > report.txt
+          code=$?
+          set -e
+          cat report.txt
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          # 0 and 2 are answers; anything else means the check is broken
+          if [ "$code" != 0 ] && [ "$code" != 2 ]; then exit "$code"; fi
+      - if: steps.check.outputs.code == '2'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Drift found $(date -u +%F' '%H:%M) UTC" --body-file report.txt --label drift

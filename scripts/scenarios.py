@@ -64,7 +64,8 @@ def s_tag_removed(c):
 
 
 def s_tag_added(c):
-    # Someone tags the droplet by hand. The tag itself is created on the fly.
+    # Someone tags the droplet by hand (the console creates the tag on the fly).
+    doctl("compute", "tag", "create", "dl-owner-oncall")
     doctl("compute", "droplet", "tag", c["droplet"], "--tag-name", "dl-owner-oncall")
     remember("tag", "dl-owner-oncall", "dl-owner-oncall")
     return {}
