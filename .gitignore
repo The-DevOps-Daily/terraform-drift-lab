@@ -1,0 +1,6 @@
+.lab/
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+.token.env
