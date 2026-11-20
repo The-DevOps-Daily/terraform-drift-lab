@@ -1,0 +1,11 @@
+# doctl compute droplet actions for the lab droplet, copied from the terminal at 2026-11-20T12:10:13Z (not stamped by a script)
+# Taken after matrix.py stopped at "lab not clean before 2:record-created". The droplet's features still listed "backups".
+$ doctl compute droplet actions 621604794 --format ID,Type,Status,StartedAt,CompletedAt | head -6
+ID            Type               Status       Started At                       Completed At
+3561178873    disable_backups    completed    2026-11-20 12:07:19 +0000 UTC    2026-11-20 12:07:20 +0000 UTC
+3561177299    disable_backups    completed    2026-11-20 12:06:43 +0000 UTC    2026-11-20 12:06:43 +0000 UTC
+3561175821    disable_backups    completed    2026-11-20 12:06:05 +0000 UTC    2026-11-20 12:06:06 +0000 UTC
+3561174627    disable_backups    completed    2026-11-20 12:05:36 +0000 UTC    2026-11-20 12:05:37 +0000 UTC
+3561162834    enable_backups     completed    2026-11-20 12:00:56 +0000 UTC    2026-11-20 12:00:57 +0000 UTC
+$ doctl compute droplet get 621604794 -o json | python3 -c '...features...'
+['backups', 'droplet_agent', 'private_networking']
